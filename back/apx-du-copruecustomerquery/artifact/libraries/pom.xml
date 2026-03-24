@@ -12,5 +12,10 @@
 	<version>0.0.0</version>
 	<packaging>pom</packaging>
 	<name>LIBRARIES-apx-du-copruecustomerquery</name>
-	<modules/>
+	<modules>
+		<module>PRUERLB1</module>
+		<module>PRUERLB1IMPL</module>
+		<module>PRUERLB2</module>
+		<module>PRUERLB2IMPL</module>
+	</modules>
 </project>
