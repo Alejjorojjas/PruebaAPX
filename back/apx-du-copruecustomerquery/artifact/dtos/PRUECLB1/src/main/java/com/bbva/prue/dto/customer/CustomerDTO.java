@@ -1,8 +1,13 @@
 package com.bbva.prue.dto.customer;
 
-import com.bbva.elara.library.AbstractDTO;
+import java.io.Serializable;
 
-public class CustomerDTO extends AbstractDTO {
+/**
+ * DTO de información del cliente
+ */
+public class CustomerDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String firstName;
 	private String lastName;

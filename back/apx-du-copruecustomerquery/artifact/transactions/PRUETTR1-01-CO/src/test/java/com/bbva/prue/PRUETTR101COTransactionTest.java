@@ -2,8 +2,9 @@ package com.bbva.prue;
 
 import com.bbva.elara.configuration.manager.application.ApplicationConfigurationService;
 import com.bbva.elara.domain.transaction.Context;
-import com.bbva.elara.domain.transaction.RequestHeaderParamsName;
 import com.bbva.elara.domain.transaction.request.header.CommonRequestHeader;
+import com.bbva.prue.dto.customer.CustomerDTO;
+import com.bbva.prue.lib.rlb2.PRUERLB2;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,18 +12,13 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 public class PRUETTR101COTransactionTest {
 
 	private Map<String, Object> parameters;
-
 	private Map<Class<?>, Object> serviceLibraries;
 
 	@Mock
@@ -30,6 +26,9 @@ public class PRUETTR101COTransactionTest {
 
 	@Mock
 	private CommonRequestHeader commonRequestHeader;
+
+	@Mock
+	private PRUERLB2 prueRLB2;
 
 	private final PRUETTR101COTransaction transaction = new PRUETTR101COTransaction() {
 		@Override
@@ -56,7 +55,7 @@ public class PRUETTR101COTransactionTest {
 
 		@Override
 		protected CommonRequestHeader getRequestHeader() {
-		 	return commonRequestHeader;
+			return commonRequestHeader;
 		}
 	};
 
@@ -64,8 +63,7 @@ public class PRUETTR101COTransactionTest {
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		initializeTransaction();
-		// TODO - Set the mocks created from the libraries to the transaction, e.g.:
-		// setServiceLibrary(QWAIR001.class, qwaiR001);
+		setServiceLibrary(PRUERLB2.class, prueRLB2);
 	}
 
 	private void initializeTransaction() {
@@ -87,12 +85,34 @@ public class PRUETTR101COTransactionTest {
 	}
 
 	@Test
-	public void executeTest() {
-		// when(commonRequestHeader.getHeaderParameter(RequestHeaderParamsName.COUNTRYCODE)).thenReturn("ES");
-		// when(applicationConfigurationService.getProperty("config.property")).thenReturn("value");
-		// when(qwaiR001.execute()).thenReturn(listCustomerDTO);
-		// setParameterToTransaction("customerIn", new CustomerDTO());
+	public void executeTestClienteNoEncontrado() {
+		setParameterToTransaction("identityDocumentTypeId", "CC");
+		setParameterToTransaction("identityDocumentNumber", "1234567890");
+		Mockito.when(prueRLB2.executeGetCustomer("CC", "1234567890")).thenReturn(null);
 		transaction.execute();
+		Assert.assertEquals(0, transaction.getAdviceList().size());
+	}
+
+	@Test
+	public void executeTestClienteEncontrado() {
+		CustomerDTO mockCustomer = new CustomerDTO();
+		mockCustomer.setFirstName("Alejandro");
+		mockCustomer.setLastName("Rojas");
+		mockCustomer.setCustomerId("C001");
+		mockCustomer.setNationalityId("CO");
+		mockCustomer.setGenderId("M");
+		mockCustomer.setIdentityDocument("Cédula de Ciudadanía");
+		mockCustomer.setIdentityDocumentNumber("1234567890");
+		mockCustomer.setIdentityDocumentTypeId("CC");
+
+		setParameterToTransaction("identityDocumentTypeId", "CC");
+		setParameterToTransaction("identityDocumentNumber", "1234567890");
+		Mockito.when(prueRLB2.executeGetCustomer("CC", "1234567890")).thenReturn(mockCustomer);
+
+		transaction.execute();
+
+		Assert.assertEquals("Alejandro", getParameterFromTransaction("firstName"));
+		Assert.assertEquals("Rojas", getParameterFromTransaction("lastName"));
 		Assert.assertEquals(0, transaction.getAdviceList().size());
 	}
 }

@@ -20,9 +20,9 @@ public class PRUETTR101COTransaction extends AbstractPRUETTR101COTransaction {
 
 		LOGGER.info("Iniciando transacción de consulta de cliente");
 
-		// Obtener parámetros de entrada
-		String identityDocumentTypeId = this.requestContext.getInputParameter("identityDocumentTypeId");
-		String identityDocumentNumber = this.requestContext.getInputParameter("identityDocumentNumber");
+		// Obtener parámetros de entrada usando los métodos generados por APX
+		String identityDocumentTypeId = this.getIdentitydocumenttypeid();
+		String identityDocumentNumber = this.getIdentitydocumentnumber();
 
 		LOGGER.info("Parámetros recibidos - tipo: {}, número: {}", identityDocumentTypeId, identityDocumentNumber);
 
@@ -38,14 +38,14 @@ public class PRUETTR101COTransaction extends AbstractPRUETTR101COTransaction {
 			return;
 		}
 
-		// Setear parámetros de salida
-		this.requestContext.setOutputParameter("firstName", customer.getFirstName());
-		this.requestContext.setOutputParameter("lastName", customer.getLastName());
-		this.requestContext.setOutputParameter("customerId", customer.getCustomerId());
-		this.requestContext.setOutputParameter("nationalityId", customer.getNationalityId());
-		this.requestContext.setOutputParameter("genderId", customer.getGenderId());
-		this.requestContext.setOutputParameter("identityDocument", customer.getIdentityDocument());
-		this.requestContext.setOutputParameter("identityDocumentNumber", customer.getIdentityDocumentNumber());
+		// Setear parámetros de salida usando los métodos generados por APX
+		this.setFirstname(customer.getFirstName());
+		this.setLastname(customer.getLastName());
+		this.setCustomerid(customer.getCustomerId());
+		this.setNationalityid(customer.getNationalityId());
+		this.setGenderid(customer.getGenderId());
+		this.setIdentitydocument(customer.getIdentityDocument());
+		this.setIdentitydocumentnumber(customer.getIdentityDocumentNumber());
 
 		LOGGER.info("Transacción de consulta de cliente finalizada exitosamente");
 	}
