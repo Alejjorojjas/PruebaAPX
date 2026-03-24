@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<transaction xmlns="http://www.w3schools.com" transactionName="PRUETTR1" application="PRUE" version="01" country="CO" language="ES">
+	<paramsIn>
+		<parameter order="1" name="identityDocumentTypeId" mandatory="1" type="String" size="50"/>
+		<parameter order="2" name="identityDocumentNumber" mandatory="1" type="String" size="50"/>
+	</paramsIn>
+	<paramsOut>
+		<parameter order="1" name="firstName" mandatory="0" type="String" size="100"/>
+		<parameter order="2" name="lastName" mandatory="0" type="String" size="100"/>
+		<parameter order="3" name="customerId" mandatory="0" type="String" size="50"/>
+		<parameter order="4" name="nationalityId" mandatory="0" type="String" size="50"/>
+		<parameter order="5" name="genderId" mandatory="0" type="String" size="50"/>
+		<parameter order="6" name="identityDocument" mandatory="0" type="String" size="100"/>
+		<parameter order="7" name="identityDocumentNumber" mandatory="0" type="String" size="50"/>
+	</paramsOut>
+	<description>Transacción de consulta de información del cliente</description>
+</transaction>

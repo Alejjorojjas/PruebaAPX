@@ -12,5 +12,7 @@
 	<version>0.0.0</version>
 	<packaging>pom</packaging>
 	<name>TRANSACTIONS-apx-du-copruecustomerquery</name>
-	<modules/>
+	<modules>
+		<module>PRUETTR1-01-CO</module>
+	</modules>
 </project>
